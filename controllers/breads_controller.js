@@ -4,7 +4,7 @@ const Bread = require('../models/bread.js')
 
 // INDEX
 breads.get('/', (req, res) => {
-    res.render('Index',
+    res.render('index',
       {
         breads: Bread,
         title: 'Index Page'
@@ -20,7 +20,7 @@ breads.get('/new', (req, res) => {
 // SHOW
 breads.get('/:arrayIndex', (req, res) => {
   if (Bread[req.params.arrayIndex]) {
-    res.render('Show', {
+    res.render('show', {
       bread:Bread[req.params.arrayIndex],
       index: req.params.arrayIndex,
     })
