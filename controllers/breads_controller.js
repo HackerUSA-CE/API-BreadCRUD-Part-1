@@ -32,13 +32,11 @@ breads.get('/:id', (req, res) => {
 })
 
 // EDIT
-breads.get('/:id', (req, res) => {
-  Bread.findById(req.params.id)
-      .then(foundBread => {
-          res.render('show', {
-              bread: foundBread
-          })
-      })
+breads.get('/:id/edit', (req, res) => {
+  res.render('edit', {
+    bread: Bread[req.params.id],
+    index: req.params.id
+  })
 })
 
 // UPDATE
