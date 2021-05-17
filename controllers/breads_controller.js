@@ -1,6 +1,7 @@
 const express = require('express')
 const breads = express.Router()
 const Bread = require('../models/bread.js')
+const breadSeedData = require('../models/seed.js')
 
 // INDEX
 breads.get('/', (req, res) => {
@@ -32,10 +33,10 @@ breads.get('/:id', (req, res) => {
 })
 
 // EDIT
-breads.get('/:id', (req, res) => {
+breads.get('/:id/edit', (req, res) => {
   Bread.findById(req.params.id)
       .then(foundBread => {
-          res.render('show', {
+          res.render('edit', {
               bread: foundBread
           })
       })
@@ -48,8 +49,11 @@ breads.put('/:id', (req, res) => {
   } else {
     req.body.hasGluten = false
   }
-  Bread[req.params.id] = req.body
-  res.redirect(`/breads/${req.params.id}`)
+  Bread.findByIdAndUpdate(req.params.id, req.body, { new: true }) 
+    .then(updatedBread => {
+      console.log(updatedBread) 
+      res.redirect(`/breads/${req.params.id}`) 
+    })
 })
 
 // CREATE
@@ -68,8 +72,18 @@ breads.post('/', (req, res) => {
 
 // DELETE
 breads.delete('/:id', (req, res) => {
-  Bread.splice(req.params.id, 1)
-  res.status(303).redirect('/breads')
+  Bread.findByIdAndDelete(req.params.id) 
+    .then(deletedBread => { 
+      res.status(303).redirect('/breads')
+    })
+})
+
+// SEED ROUTE 
+breads.get('/data/seed', (req, res) => {
+  Bread.insertMany(breadSeedData)
+    .then(createdBreads => {
+      res.redirect('/breads')
+    })
 })
 
 module.exports = breads
