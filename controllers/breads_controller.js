@@ -28,6 +28,7 @@ breads.get('/new', (req, res) => {
 // SHOW
 breads.get('/:id', (req, res) => {
   Bread.findById(req.params.id)
+      .populate('baker')
       .then(foundBread => {
         res.render('show', {
             bread: foundBread
@@ -41,11 +42,11 @@ breads.get('/:id', (req, res) => {
 // EDIT
 breads.get('/:id/edit', (req, res) => {
   Bread.findById(req.params.id)
-      .then(foundBread => {
-          res.render('edit', {
-              bread: foundBread
-          })
-      })
+    .then(foundBread => {
+        res.render('edit', {
+            bread: foundBread
+        })
+    })
 })
 
 // UPDATE
