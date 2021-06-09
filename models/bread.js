@@ -1,6 +1,5 @@
 // require mongoose 
 const mongoose = require('mongoose')
-const Baker = require('./baker')
 // creating shorthand for the Schema constructor 
 const { Schema } = mongoose 
 
